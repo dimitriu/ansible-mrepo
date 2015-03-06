@@ -1,0 +1,18 @@
+---
+
+- name: get mrepo repo file
+  get_url: url=https://copr.fedoraproject.org/coprs/baurzhanm/mrepo/repo/epel-7/baurzhanm-mrepo-epel-7.repo dest=/etc/yum.repos.d/mrepo.repo mode=0440
+
+- name: install basic dependencies
+  yum: name={{ item }} state=present
+  with_items:
+    - libselinux-python
+    - lftp
+    - httpd
+    - mrepo
+
+- name: copy mrepo config file
+  copy: src=mrepo.conf dest=/etc/mrepo.conf
+
+- name: copy centos7 repo config file
+  copy: src=centos7.conf dest=/etc/mrepo.conf.d/centos7.conf
